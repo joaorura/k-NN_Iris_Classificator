@@ -9,7 +9,7 @@ class Normalize:
 
     def _find_values(self):
         for element in self._data["list"]:
-            for i in element[:len(element) - 1]:
+            for i in element[1:len(element) - 1]:
                 if i < self._min:
                     self._min = i
 
@@ -22,7 +22,7 @@ class Normalize:
         for element in self._data["list"]:
             aux = deepcopy(element)
 
-            for i in range(0, len(aux) - 1):
+            for i in range(1, len(aux) - 1):
                 aux[i] = (aux[i] - self._min) / self._delta
 
             self._normalized_data["list"].append(aux)

@@ -27,13 +27,14 @@ class ReadData:
             if self._amount == -1:
                 size = aux - 1
             else:
-                size = self._amount
+                size = self._amount + 1
                 if size > aux - 1:
                     raise RuntimeError(f"O valor do campo amount é muito grande, o mesmo deve ser menor que: "
                                        f"{aux}")
 
             for line in self._data["list"]:
-                for i in range(0, size):
+                line[0] = int(line[0])
+                for i in range(1, size):
                     line[i] = float(line[i])
 
                 i += 1

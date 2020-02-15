@@ -25,7 +25,7 @@ class KNN:
         self._count_process = {}
         self._zero_count_process()
 
-        self._space_size = len(self._data["list"][0])
+        self._space_size = len(self._data["list"][0]) - 1
 
     def _check_consult_args(self, instance):
         check_type(instance, list, "A instancia deve ser uma lista")
@@ -39,7 +39,7 @@ class KNN:
             raise RuntimeError(f"O ultimo elemento da lista deve possuir uma das classes.\n"
                                f"\tClasses: {self._classifications}")
 
-        for i in instance[:len(instance) - 1]:
+        for i in instance[1:len(instance) - 1]:
             if type(i) != float:
                 raise RuntimeError(f"Os {self._space_size - 1} primeiros devem ser floats.")
 
@@ -58,7 +58,7 @@ class KNN:
         results.sort()
 
         for i in range(0, self._k):
-            classification = results[i][1][self._space_size - 1]
+            classification = results[i][1][self._space_size]
             self._count_process[classification][0] += 1
             self._count_process[classification][1] = results[i][1][:len(results[i][1]) - 1]
         aux = [-inf, None, None]
