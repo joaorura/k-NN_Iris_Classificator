@@ -8,15 +8,13 @@ def reserve_data(percent, data):
     check_type(percent, float, "O campo percent deve ser float.")
     check_type(data, dict, "O campo data deve ser um dict.")
 
-    if percent > 1 or percent < 0:
-        raise RuntimeError("O valor percente deve está entre 0 e 1")
-
-    if percent == 1:
-        result = deepcopy(data)
-        del data
-        return result
+    if percent >= 1 or percent < 0:
+        raise RuntimeError("O valor percente deve está entre > 0 e < 1")
 
     size = int(len(data["list"]) * percent)
+    if size == 0:
+        raise RuntimeError("Percent muito pequeno")
+
     new_data = {
         "identifiers": data['identifiers'],
         "list": []

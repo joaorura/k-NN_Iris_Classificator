@@ -18,6 +18,7 @@ class KNN:
 
     def __init__(self, data, classifications, k=1):
         self._data = data
+
         self._k = k
         self._classifications = classifications
         self._check_values()
@@ -25,12 +26,12 @@ class KNN:
         self._count_process = {}
         self._zero_count_process()
 
-        self._space_size = len(self._data["list"][0]) - 1
+        self._space_size = len(self._data["list"][0])
 
     def _check_consult_args(self, instance):
         check_type(instance, list, "A instancia deve ser uma lista")
 
-        if len(instance) < self._space_size:
+        if len(instance) != self._space_size:
             raise RuntimeError(f"A instancia deve ter tamanho: {self._space_size}")
 
         check_type(instance[len(instance) - 1], str, "O ultimo elemento da lista deve ser uma string.")
@@ -45,12 +46,12 @@ class KNN:
 
     def consult(self, instance):
         self._check_consult_args(instance)
-
         results = []
         for element in self._data["list"]:
             aux = 0
-            for i in range(0, self._space_size - 1):
-                aux += (instance[i] - element[i]) ** 2
+
+            for i in range(1, self._space_size - 1):
+                aux += (element[i] - instance[i]) ** 2
 
             aux_result = (aux, element)
             results.append(aux_result)
@@ -58,9 +59,9 @@ class KNN:
         results.sort()
 
         for i in range(0, self._k):
-            classification = results[i][1][self._space_size]
+            classification = results[i][1][self._space_size - 1]
             self._count_process[classification][0] += 1
-            self._count_process[classification][1] = results[i][1][:len(results[i][1]) - 1]
+            self._count_process[classification][1] = results[i][1][:self._space_size - 1]
         aux = [-inf, None, None]
 
         for i in self._count_process:
